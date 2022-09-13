@@ -8,6 +8,12 @@ MAC: https://docs.docker.com/docker-for-mac/install/
 
 Linux - Fedora: https://docs.docker.com/install/linux/docker-ce/fedora/
 
+## Stack Technologies
+    - React
+    - NodeJS
+    - Docker
+        -S2I
+
 
 ## Executing
 just type
