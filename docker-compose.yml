@@ -1,0 +1,37 @@
+version: "3.6"
+services:
+
+  api:
+    restart: always
+    container_name: api.nlw.local
+    build: ./nodejs-dkr/
+    volumes:
+      - "./api:/usr/src/app"
+    environment:
+      NODE_ENV: "development"
+      PORT: 3000
+    ports:
+      - "3000:3000"
+    command: [ '.s2i/bin/assemble' ]
+    networks:
+      - nlw
+
+  web:
+    restart: always
+    container_name: web.nlw.local
+    build: ./nodejs-dkr/
+    volumes:
+      - "./web:/usr/src/app"
+    environment:
+      NODE_ENV: "development"
+    ports:
+      - "5173:5173"
+    command: [ '.s2i/bin/assemble' ]
+    networks:
+      - nlw
+
+
+networks:
+  nlw:
+    driver: bridge
+    name: nlw
