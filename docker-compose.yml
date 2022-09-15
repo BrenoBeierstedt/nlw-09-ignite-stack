@@ -1,21 +1,6 @@
 version: "3.6"
 services:
 
-  api:
-    restart: always
-    container_name: api.nlw.local
-    build: ./nodejs-dkr/
-    volumes:
-      - "./api:/usr/src/app"
-    environment:
-      NODE_ENV: "development"
-      PORT: 3000
-    ports:
-      - "3000:3000"
-    command: [ '.s2i/bin/assemble' ]
-    networks:
-      - nlw
-
   web:
     restart: always
     container_name: web.nlw.local
@@ -30,6 +15,37 @@ services:
     networks:
       - nlw
 
+  api:
+    restart: always
+    container_name: api.nlw.local
+    build: ./nodejs-dkr/
+    volumes:
+      - "./api:/usr/src/app"
+    environment:
+      NODE_ENV: "development"
+      PORT: 3000
+      DATABASE_URL: "postgresql://postgres:someStrongPassword@postgres:5432/nlw?schema=public"
+    ports:
+      - "3000:3000"
+      - "5555:5555"
+    command: [ '.s2i/bin/assemble' ]
+    networks:
+      - nlw
+
+  postgres:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: someStrongPassword
+      PGDATA: /data/postgres
+    volumes:
+      - ./postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - nlw
+    restart: always
 
 networks:
   nlw:

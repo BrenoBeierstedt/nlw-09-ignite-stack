@@ -1,10 +1,10 @@
 import express from 'express';
+import routes  from './routes/publicRoutes'
+import cors from 'cors'
 
 const app = express();
+app.use(express.json());
+app.use(cors());
 
-app.get('/api/users', (req, res) => {
-    console.log('aceaassou')
-    res.json({success: true, message: 'acaessou'})
-})
-
+app.use(routes)
 app.listen(process.env.PORT)
